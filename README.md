@@ -1,18 +1,5 @@
-Hello, My Friends  
-Thank you for having interest in this repository ! 
+인프런 '따라하며 배우는 노드, 리액트 시리즈 - 쇼핑몰 사이트 만들기' 강의노트입니다.
 
-To use this application, 
-
-1. make dev.js file inside config folder 
-2. put mongoDB info into dev.js file 
-3. Type  " npm install " inside the root directory  ( Download Server Dependencies ) 
-4. Type " npm install " inside the client directory ( Download Front-end Dependencies )
-
-
-If you have problem, feel free to ask me ^^ 
-
-You can watch the tutorial for this app.
-
-https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
+강의 내용에 나오는 코드와 현재 github에 올려진 코드는 일부 다를 수 있습니다.
 
 
