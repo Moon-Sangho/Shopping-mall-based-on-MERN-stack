@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Typography, Button, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
+
+import FileUpload from "../../utils/FileUpload";
 
 const { TextArea } = Input;
 
 const Wrapper = styled.div`
   max-width: 700px;
   margin: 2rem auto;
+
+  input,
+  textarea {
+    margin-bottom: 20px !important;
+  }
+
+  select {
+    display: block;
+    margin-bottom: 20px;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -53,20 +65,13 @@ export default function UploadProductPage() {
         <h2>여행 상품 업로드</h2>
       </TitleWrapper>
       <Form>
-        <br />
-        <br />
+        <FileUpload />
         <label>이름</label>
         <Input onChange={titleChangeHandler} value={Title} />
-        <br />
-        <br />
         <label>설명</label>
         <TextArea onChange={descriptionChangeHandler} value={Description} />
-        <br />
-        <br />
         <label>가격($)</label>
         <Input type="number" onChange={priceChangeHandler} value={Price} />
-        <br />
-        <br />
         <select onChange={continentChangeHandler} value={Continent}>
           {Continents.map((continent) => {
             return (
@@ -76,8 +81,6 @@ export default function UploadProductPage() {
             );
           })}
         </select>
-        <br />
-        <br />
         <Button>확인</Button>
       </Form>
     </Wrapper>
