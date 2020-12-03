@@ -39,9 +39,10 @@ const UploadedImageBox = styled.div`
   }
 `;
 
-export default function FileUpload() {
+export default function FileUpload(props) {
   const [Images, setImages] = useState([]);
 
+  // 이미지 추가 함수
   const dropHandler = (files) => {
     let formData = new FormData();
     const config = {
@@ -51,13 +52,24 @@ export default function FileUpload() {
 
     axios.post("/api/product/image", formData, config).then((res) => {
       if (res.data.success) {
-        console.log(res.data);
         setImages([...Images, res.data.filePath]);
+        // UploadProductPage 컴포넌트에서 props로 전달해준 refreshFunction 함수
+        props.refreshFunction([...Images, res.data.filePath]);
       } else {
         alert("Failed to file upload");
       }
     });
   };
+
+  // 이미지 삭제 함수
+  const deleteHandler = (image) => {
+    const currentIndex = Images.indexOf(image);
+    let newImages = [...Images];
+    newImages.splice(currentIndex, 1);
+    setImages(newImages);
+    props.refreshFunction(newImages);
+  };
+
   return (
     <Wrapper>
       <Dropzone onDrop={dropHandler}>
@@ -77,6 +89,7 @@ export default function FileUpload() {
               key={index}
               src={`http://localhost:5000/${image}`}
               alt="uploadedImage"
+              onClick={() => deleteHandler(image)}
             />
           );
         })}

@@ -41,7 +41,7 @@ export default function UploadProductPage() {
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Continent, setContinent] = useState(1);
-  const [Images, setImage] = useState([]);
+  const [Images, setImages] = useState([]);
 
   const titleChangeHandler = (event) => {
     setTitle(event.currentTarget.value);
@@ -59,13 +59,18 @@ export default function UploadProductPage() {
     setContinent(event.currentTarget.value);
   };
 
+  // FileUpload 컴포넌트에서 등록 또는 삭제한 이미지 데이터들을 받아오기 위한 함수
+  const updateImages = (newImages) => {
+    setImages(newImages);
+  };
+
   return (
     <Wrapper>
       <TitleWrapper>
         <h2>여행 상품 업로드</h2>
       </TitleWrapper>
       <Form>
-        <FileUpload />
+        <FileUpload refreshFunction={updateImages} />
         <label>이름</label>
         <Input onChange={titleChangeHandler} value={Title} />
         <label>설명</label>
