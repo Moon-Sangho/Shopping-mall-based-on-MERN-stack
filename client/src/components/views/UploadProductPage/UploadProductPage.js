@@ -67,7 +67,6 @@ export default function UploadProductPage(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("props.user", props.user.userData);
 
     if (!Title || !Description || !Price || !Continent || !Images) {
       return alert("모든 값을 넣어주셔야 합니다.");
@@ -117,7 +116,9 @@ export default function UploadProductPage(props) {
             );
           })}
         </select>
-        <button type="submit">확인</button>
+        <Button type="submit" onClick={submitHandler}>
+          확인
+        </Button>
       </Form>
     </Wrapper>
   );
