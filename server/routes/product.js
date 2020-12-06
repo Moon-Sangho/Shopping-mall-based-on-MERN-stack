@@ -45,15 +45,23 @@ router.post("/", (req, res) => {
   });
 });
 
-router.get("/products", (req, res) => {
+router.post("/products", (req, res) => {
+  // 한 번에 출력할 상품 개수와, 더보기 버튼 클릭시 보여줄 상품 개수를 위한 설정
+  let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
   // product collection에 들어 있는 모든 상품 정보를 가져오기
   Product.find()
     .populate("writer")
+    .skip(skip)
+    .limit(limit)
     .exec((err, productInfo) => {
       if (err) {
         return res.status(400).json({ success: false, err });
       } else {
-        return res.status(200).json({ success: true, productInfo });
+        return res
+          .status(200)
+          .json({ success: true, productInfo, postSize: productInfo.length });
       }
     });
 });
