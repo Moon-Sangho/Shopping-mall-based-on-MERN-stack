@@ -50,8 +50,17 @@ router.post("/products", (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
-  // product collection에 들어 있는 모든 상품 정보를 가져오기
-  Product.find()
+  let findArgs = {};
+
+  // 클라이언트에서 요청한 req.body.filters에 값이 하나라도 있다면, findArgs에 그 값들을 삽입
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      findArgs[key] = req.body.filters[key];
+    }
+  }
+
+  // product collection에 들어 있는 상품 정보를 가져오기
+  Product.find(findArgs) // 필터된 데이터(findArgs) 찾기
     .populate("writer")
     .skip(skip)
     .limit(limit)
