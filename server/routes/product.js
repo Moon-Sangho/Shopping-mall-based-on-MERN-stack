@@ -55,9 +55,19 @@ router.post("/products", (req, res) => {
   // 클라이언트에서 요청한 req.body.filters에 값이 하나라도 있다면, findArgs에 그 값들을 삽입
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      findArgs[key] = req.body.filters[key];
+      if (key === "price") {
+        findArgs[key] = {
+          $gte: req.body.filters[key][0], // greater then equal
+          $lte: req.body.filters[key][1], // less than equal
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
     }
   }
+
+  // 선택된 필터 확인
+  console.log("findArgs", findArgs);
 
   // product collection에 들어 있는 상품 정보를 가져오기
   Product.find(findArgs) // 필터된 데이터(findArgs) 찾기

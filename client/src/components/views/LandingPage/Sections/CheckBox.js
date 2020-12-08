@@ -1,7 +1,17 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Collapse, Checkbox } from "antd";
 
 const { Panel } = Collapse;
+
+const ItemWrapper = styled.div`
+  display: inline-block;
+  margin-right: 15px;
+`;
+
+const Label = styled.span`
+  margin-left: 5px;
+`;
 
 function CheckBox(props) {
   const [Checked, setChecked] = useState([]);
@@ -27,13 +37,13 @@ function CheckBox(props) {
   const renderCheckboxLists = () =>
     props.list &&
     props.list.map((value, index) => (
-      <React.Fragment key={index}>
+      <ItemWrapper key={index}>
         <Checkbox
           onChange={() => handleToggle(value._id)}
           checked={Checked.indexOf(value._id) === -1 ? false : true}
         />
-        <span>{value.name}</span>
-      </React.Fragment>
+        <Label>{value.name}</Label>
+      </ItemWrapper>
     ));
 
   return (

@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
-import { continents } from "./Sections/Datas";
+import RadioBox from "./Sections/RadioBox";
+import { continents, price } from "./Sections/Datas";
 
 import axios from "axios";
 import { Icon, Col, Card, Row, Button } from "antd";
@@ -98,14 +99,32 @@ function LandingPage() {
     setSkip(0);
   };
 
+  const handlePrice = (value) => {
+    const data = price;
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id === parseInt(value, 10)) {
+        array = data[key].array;
+      }
+    }
+
+    return array;
+  };
+
   // 체크박스 클릭 시 실행되는 함수
   const handleFilters = (filters, category) => {
     const newFilters = { ...Filters };
 
-    // 상태값 Filters 중 continents 혹은 price 값이 사용자의 선택에 따라 filters 값이 달라짐
-    newFilters[category] = filters;
-
+    // 인자로 받는 category가 price일 때와 continents일 때를 나누어 분기처리
+    if (category === "price") {
+      let priceValues = handlePrice(filters);
+      newFilters[category] = priceValues;
+    } else {
+      newFilters[category] = filters;
+    }
     showFilteredResults(newFilters);
+    setFilters(newFilters);
   };
 
   return (
@@ -115,10 +134,20 @@ function LandingPage() {
           Let's Travel Anywhere <Icon type="rocket" />
         </h2>
       </TitleWrapper>
-      <CheckBox
-        list={continents}
-        handleFilters={(filters) => handleFilters(filters, "continents")}
-      />
+      <Row gutter={[16, 16]}>
+        <Col lg={12} xs={24}>
+          <CheckBox
+            list={continents}
+            handleFilters={(filters) => handleFilters(filters, "continents")}
+          />
+        </Col>
+        <Col lg={12} xs={24}>
+          <RadioBox
+            list={price}
+            handleFilters={(filters) => handleFilters(filters, "price")}
+          />
+        </Col>
+      </Row>
       <Row gutter={[16, 16]}>{renderCards}</Row>
       {PostSize >= Limit && (
         <BtnWrapper>
