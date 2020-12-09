@@ -86,7 +86,14 @@ function LandingPage() {
   const renderCards = Products.map((product, index) => {
     return (
       <Col key={index} lg={6} md={8} xs={24}>
-        <Card cover={<ImageSlider images={product.images} />}>
+        <Card
+          cover={
+            <a href={`product/${product._id}`}>
+              {" "}
+              <ImageSlider images={product.images} />
+            </a>
+          }
+        >
           <Meta
             title={product.title}
             description={`$${product.price.toLocaleString()}`}
