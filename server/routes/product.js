@@ -49,6 +49,7 @@ router.post("/products", (req, res) => {
   // 한 번에 출력할 상품 개수와, 더보기 버튼 클릭시 보여줄 상품 개수를 위한 설정
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let term = req.body.searchTerm;
 
   let findArgs = {};
 
@@ -69,20 +70,39 @@ router.post("/products", (req, res) => {
   // 선택된 필터 확인
   console.log("findArgs", findArgs);
 
-  // product collection에 들어 있는 상품 정보를 가져오기
-  Product.find(findArgs) // 필터된 데이터(findArgs) 찾기
-    .populate("writer")
-    .skip(skip)
-    .limit(limit)
-    .exec((err, productInfo) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      } else {
-        return res
-          .status(200)
-          .json({ success: true, productInfo, postSize: productInfo.length });
-      }
-    });
+  term;
+
+  if (term) {
+    Product.find(findArgs)
+      .find({ $text: { $search: term } })
+      .populate("writer")
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) {
+          return res.status(400).json({ success: false, err });
+        } else {
+          return res
+            .status(200)
+            .json({ success: true, productInfo, postSize: productInfo.length });
+        }
+      });
+  } else {
+    // product collection에 들어 있는 상품 정보를 가져오기
+    Product.find(findArgs) // 필터된 데이터(findArgs) 찾기
+      .populate("writer")
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) {
+          return res.status(400).json({ success: false, err });
+        } else {
+          return res
+            .status(200)
+            .json({ success: true, productInfo, postSize: productInfo.length });
+        }
+      });
+  }
 });
 
 module.exports = router;

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
 import RadioBox from "./Sections/RadioBox";
+import SearchFeature from "./Sections/SearchFeature";
 import { continents, price } from "./Sections/Datas";
 
 import axios from "axios";
@@ -24,12 +25,19 @@ const BtnWrapper = styled.div`
   margin: 20px auto 0;
 `;
 
+const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem auto;
+`;
+
 function LandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [Limit, setLimit] = useState(8);
   const [PostSize, setPostSize] = useState(0);
   const [Filters, setFilters] = useState({ continents: [], price: [] });
+  const [SearchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     let body = {
@@ -127,6 +135,19 @@ function LandingPage() {
     setFilters(newFilters);
   };
 
+  const updateSearchTerm = (newSearchTerm) => {
+    let body = {
+      skip: 0,
+      limit: Limit,
+      filters: Filters,
+      searchTerm: newSearchTerm,
+    };
+
+    setSkip(0);
+    setSearchTerm(newSearchTerm);
+    getProducts(body);
+  };
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -148,6 +169,9 @@ function LandingPage() {
           />
         </Col>
       </Row>
+      <SearchWrapper>
+        <SearchFeature refreshFunction={updateSearchTerm} />
+      </SearchWrapper>
       <Row gutter={[16, 16]}>{renderCards}</Row>
       {PostSize >= Limit && (
         <BtnWrapper>
