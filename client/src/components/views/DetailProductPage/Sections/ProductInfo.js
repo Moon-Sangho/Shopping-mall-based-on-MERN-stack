@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../../_actions/user_actions";
+
 import { Descriptions, Button } from "antd";
 
 const BtnWrapper = styled.div`
@@ -10,7 +13,11 @@ const BtnWrapper = styled.div`
 `;
 
 function ProductInfo(props) {
-  const clickHandler = () => {};
+  const dispatch = useDispatch();
+  // 필요한 정보를 Cart filed에 넣어줌
+  const clickHandler = () => {
+    dispatch(addToCart(props.detail._id));
+  };
   return (
     <div>
       <Descriptions title="Product Info" bordered>
