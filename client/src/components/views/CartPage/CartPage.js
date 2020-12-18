@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import UserCardBlock from "./Sections/UserCardBlock";
@@ -11,8 +11,13 @@ const Wrapper = styled.div`
   margin: 3rem auto;
 `;
 
+const TotalAmountWrapper = styled.div`
+  margin-top: 3rem;
+`;
+
 function CartPage(props) {
   const dispatch = useDispatch();
+  const [Total, setToTal] = useState(0);
 
   useEffect(() => {
     let cartItems = [];
@@ -24,16 +29,32 @@ function CartPage(props) {
           cartItems.push(item.id);
         });
 
-        dispatch(getCartItems(cartItems, props.user.userData.cart));
+        dispatch(getCartItems(cartItems, props.user.userData.cart)).then(
+          (res) => {
+            calculateTotal(res.payload);
+          }
+        );
       }
     }
   }, [props.user.userData]);
+
+  let calculateTotal = (cartDetail) => {
+    let total = 0;
+
+    cartDetail.map((item) => {
+      total += parseInt(item.price, 10) * item.quantity;
+    });
+    setToTal(total);
+  };
   return (
     <Wrapper>
       <h1>My Cart</h1>
       <div>
         <UserCardBlock products={props.user.cartDetail} />
       </div>
+      <TotalAmountWrapper>
+        <h2>Total Amount: ${Total.toLocaleString()}</h2>
+      </TotalAmountWrapper>
     </Wrapper>
   );
 }

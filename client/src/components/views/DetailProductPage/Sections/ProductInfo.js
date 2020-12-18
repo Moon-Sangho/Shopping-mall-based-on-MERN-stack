@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../../_actions/user_actions";
 
@@ -14,9 +15,12 @@ const BtnWrapper = styled.div`
 
 function ProductInfo(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   // 필요한 정보를 Cart filed에 넣어줌
   const clickHandler = () => {
     dispatch(addToCart(props.detail._id));
+    alert("상품이 장바구니에 담겼습니다.");
+    history.push("/");
   };
   return (
     <div>
