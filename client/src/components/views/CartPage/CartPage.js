@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
+import styled from "styled-components";
+
+import UserCardBlock from "./Sections/UserCardBlock";
+
 import { useDispatch } from "react-redux";
 import { getCartItems } from "../../../_actions/user_actions";
+
+const Wrapper = styled.div`
+  width: 85%;
+  margin: 3rem auto;
+`;
 
 function CartPage(props) {
   const dispatch = useDispatch();
@@ -19,7 +28,14 @@ function CartPage(props) {
       }
     }
   }, [props.user.userData]);
-  return <div>CartPage</div>;
+  return (
+    <Wrapper>
+      <h1>My Cart</h1>
+      <div>
+        <UserCardBlock products={props.user.cartDetail} />
+      </div>
+    </Wrapper>
+  );
 }
 
 export default CartPage;
