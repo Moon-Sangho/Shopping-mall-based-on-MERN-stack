@@ -47,7 +47,7 @@ function UserCardBlock(props) {
         <Td>{product.quantity} EA</Td>
         <Td>${product.price && product.price.toLocaleString()}</Td>
         <Td>
-          <Button>Remove</Button>
+          <Button onClick={() => props.removeItem(product._id)}>Remove</Button>
         </Td>
       </Tr>
     ));

@@ -37,7 +37,7 @@ function RightMenu(props) {
           <Link to="/product/upload">Upload</Link>
         </Menu.Item>
         <Menu.Item key="cart" style={{ paddingBottom: 3 }}>
-          <Badge count={5}>
+          <Badge count={user.userData && user.userData.cart.length}>
             <Link
               to="/user/cart"
               className="head-example"
