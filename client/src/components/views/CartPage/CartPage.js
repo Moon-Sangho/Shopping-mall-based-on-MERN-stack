@@ -6,6 +6,7 @@ import UserCardBlock from "./Sections/UserCardBlock";
 import { useDispatch } from "react-redux";
 import { getCartItems, removeCartItem } from "../../../_actions/user_actions";
 
+import Paypal from "../../utils/Paypal";
 import { Empty } from "antd";
 
 const Wrapper = styled.div`
@@ -78,6 +79,7 @@ function CartPage(props) {
           <Empty description={false} />
         </>
       )}
+      <Paypal />
     </Wrapper>
   );
 }
