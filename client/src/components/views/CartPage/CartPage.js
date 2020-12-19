@@ -70,16 +70,18 @@ function CartPage(props) {
         />
       </div>
       {ShowTotal ? (
-        <TotalAmountWrapper>
-          <h2>Total Amount: ${Total.toLocaleString()}</h2>
-        </TotalAmountWrapper>
+        <>
+          <TotalAmountWrapper>
+            <h2>Total Amount: ${Total.toLocaleString()}</h2>
+          </TotalAmountWrapper>
+          <Paypal total={Total} />
+        </>
       ) : (
         <>
           <br />
           <Empty description={false} />
         </>
       )}
-      <Paypal />
     </Wrapper>
   );
 }
