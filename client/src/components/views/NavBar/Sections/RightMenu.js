@@ -33,6 +33,9 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
+        <Menu.Item key="history">
+          <Link to="/history">History</Link>
+        </Menu.Item>
         <Menu.Item key="upload">
           <Link to="/product/upload">Upload</Link>
         </Menu.Item>
